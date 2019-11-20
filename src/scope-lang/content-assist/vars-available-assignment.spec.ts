@@ -11,9 +11,10 @@ describe("Scope Visitor", () => {
       column: 5
     };
     const findAssignmentNode = createIndexMatcher(lineMap, "assignment");
-    const node = findAssignmentNode(position);
-    const { varsAvailable } = node;
+    const { data, column } = findAssignmentNode(position);
+    const { varsAvailable } = data;
     console.log({ position, varsAvailable });
+    expect(column).toEqual(4);
     expect(varsAvailable).toEqual(["b"]);
   });
 });

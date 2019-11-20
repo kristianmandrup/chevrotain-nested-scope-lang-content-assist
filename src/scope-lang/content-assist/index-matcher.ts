@@ -25,6 +25,8 @@ export const createIndexMatcher = (indexMap: any, name: string) => {
       throw `indexMatcher: closest key - ${name} could not find match for ${line}:${column} - ${closestKeyIndex} ${closestKey}`;
     }
     const closestObj = namedIndexMap[closestKey];
-    return closestObj;
+    const index = Number(closestKey);
+    const data = closestObj;
+    return { data, column: index };
   };
 };

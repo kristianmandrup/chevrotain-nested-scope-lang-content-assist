@@ -167,6 +167,7 @@ const onChange = (textDocumentPosition: TextDocumentPositionParams) => {
 
 const onCompletion = (textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
   // position has character and line position
+  let text = documents.get(textDocumentPosition.textDocument.uri).getText();
   let position = textDocumentPosition.position;
   const lines = text.split(/\r?\n/g);
   // determine char just before position
@@ -175,10 +176,24 @@ const onCompletion = (textDocumentPosition: TextDocumentPositionParams): Complet
     column: position.character
   };
   // return a list of auto complete suggestions (for = assignment)
-  const node = this.find.assignment(pos);
-  const varsWithinScope = node.varsAvailable;
+  const const { data, column } = this.find.assignment(pos);
+  const varsWithinScope = data.varsAvailable;
   let completionItems = new Array<CompletionItem>();
-  varsWithinScope.map(varName => results.push({
+
+  const line = lines[position.line]
+  const wordBeingTypedAfterAssignToken = line.slice(column+1, position.character).trim()
+
+  const filterVars = (varsWithinScope) => varsWithinScope.filter(varName => varName.startsWith(wordBeingTypedAfterAssignToken))
+
+  const isTypingVarName = wordBeingTypedAfterAssignToken.length > 0
+
+  // if we are typing a (variable) name ref
+  // - display var names that start with typed name
+  // - otherwise display all var names in scope
+  const relevantVarsWithinScope = isTypingVarName ? filterVars(varsWithinScope) : varsWithinScope
+
+  // build completion items list
+  relevantVarsWithinScope.map(varName => results.push({
     label: varName,
     kind: CompletionItemKind.Reference,
     data: varName
