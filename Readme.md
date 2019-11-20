@@ -86,8 +86,16 @@ It is intended as an example for how to work with nested scopes and provide cont
 - [chevrotain content assist example project](https://github.com/SAP/chevrotain/tree/master/examples/parser/content_assist) with specs.
 - [Chevrotain Editor/LSP discussion](https://github.com/SAP/chevrotain/issues/921#issuecomment-555581552)
 - [Visual Studio Language Server for dot language](https://tomassetti.me/language-server-dot-visual-studio/)
+
+### Alibaba Quick Start guide to VSC plugins
+
 - [Quick Start to VSCode Plug-Ins: Language Server Protocol (LSP)](https://www.alibabacloud.com/blog/595294?spm=a2c41.13494487.0.0)
+- [Quick Start to VSCode Plug-ins: Write LSP Project from Scratch](https://www.alibabacloud.com/blog/quick-start-to-vscode-plug-ins-write-lsp-project-from-scratch_595297?spm=a2c65.11461447.0.0.2cdf773dJMMsar)
 - [Quick Start to VSCode Plug-Ins: Code Completion](https://medium.com/dataseries/quick-start-to-vscode-plug-ins-code-completion-408b95f5b5a6)
+- [Quick Start to VSCode Plug-Ins: LSP protocol initialization parameters](https://www.alibabacloud.com/blog/quick-start-to-vscode-plug-ins-lsp-protocol-initialization-parameters_595296?spm=a2c65.11461447.0.0.2cdf773dJMMsar)
+- [Quick Start to VSCode Plug-Ins: Programming Language Extensions](https://www.alibabacloud.com/blog/quick-start-to-vscode-plug-ins-programming-language-extensions_595287?spm=a2c65.11461447.0.0.2cdf773dJMMsar)
+- [Quick Start to VSCode Plug-Ins: Diagnostic Information](https://www.alibabacloud.com/blog/quick-start-to-vscode-plug-ins-diagnostic-information_595288?spm=a2c65.11461447.0.0.2cdf773dJMMsar)
+- [Quick Start to VSCode Plug-Ins: Running Commands](https://www.alibabacloud.com/blog/quick-start-to-vscode-plug-ins-running-commands_595286?spm=a2c65.11461447.0.0.2cdf773dJMMsar)
 
 To add the completion provider (aka "content assist) for a VSC extension
 
