@@ -180,6 +180,7 @@ const onCompletion = (textDocumentPosition: TextDocumentPositionParams): Complet
   const varsWithinScope = data.varsAvailable;
   let completionItems = new Array<CompletionItem>();
 
+  // in case we allow completion in the middle of typing a name after assignment
   const line = lines[position.line]
   const wordBeingTypedAfterAssignToken = line.slice(column+1, position.character).trim()
 
