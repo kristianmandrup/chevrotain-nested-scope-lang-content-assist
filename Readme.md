@@ -86,6 +86,7 @@ It is intended as an example for how to work with nested scopes and provide cont
 - [chevrotain content assist example project](https://github.com/SAP/chevrotain/tree/master/examples/parser/content_assist) with specs.
 - [Chevrotain Editor/LSP discussion](https://github.com/SAP/chevrotain/issues/921#issuecomment-555581552)
 - [Visual Studio Language Server for dot language](https://tomassetti.me/language-server-dot-visual-studio/)
+- [Quick Start to VSCode Plug-Ins: Language Server Protocol (LSP)](https://www.alibabacloud.com/blog/595294?spm=a2c41.13494487.0.0)
 - [Quick Start to VSCode Plug-Ins: Code Completion](https://medium.com/dataseries/quick-start-to-vscode-plug-ins-code-completion-408b95f5b5a6)
 
 To add the completion provider (aka "content assist) for a VSC extension
@@ -116,6 +117,7 @@ connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Comp
 
   // use parsed model to lookup via position
   // return a list of auto complete suggestions (for = assignment)
+  // must be array of CompletionItem (see below)
   return results;
 ```
 
@@ -206,6 +208,20 @@ const onCompletion = (textDocumentPosition: TextDocumentPositionParams): Complet
 See [CompletionItemKind](https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.protocol.completionitemkind?view=visualstudiosdk-2019) enum (and more VS Code API documentation)
 
 To find a match, a primitive approach would be to simply iterate through this list until it finds first one with position greater than current document position (or at end of list) then use the one before that.
+
+### Completion resolve
+
+We can also add an `onCompletionResolve` handler as follows. This can be used to provide additional context and documentation for the option available to be selected.
+
+```ts
+connection.onCompletionResolve(
+    (item: CompletionItem): CompletionItem => {
+        item.detail = item.data;
+        item.documentation = `${item.data} reference`;
+        return item;
+    }
+)
+```
 
 ## VS Code Language extension
 
