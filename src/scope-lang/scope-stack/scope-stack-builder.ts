@@ -48,12 +48,10 @@ export class ScopeStackBuilder {
 
   evaluate(statements: any[], ctx: any) {
     if (!statements) {
-      // console.warn("no statements", displayJson(ctx));
       return;
     }
     return statements.map(stm => {
       const result = this.handle(stm);
-      // console.log("handled stm", result);
       return {
         type: "STATEMENT",
         ...result
@@ -85,26 +83,22 @@ export class ScopeStackBuilder {
   setLineObj(lineNumber: number, obj: any) {
     let currObj = this.lineObjFor(lineNumber);
     const newObj = merge(currObj, obj);
-    console.log("setLineObj", { newObj });
     this.lineMap[lineNumber] = newObj;
-    console.log(displayJson(this.lineMap));
   }
 
-  indexAssignment(position, node) {
+  index(name, { position, node }) {
     const { startColumn, startLine } = position;
-    const assignObj = {
+    const obj = {
       [startColumn]: node
     };
     this.setLineObj(startLine, {
-      assignment: assignObj
+      [name]: obj
     });
   }
 
   assignment(ctx: any) {
     const { variableName, position } = ctx;
-    // console.log("assignment =", ctx);
     const { currentStackScope, symbolStack } = this;
-    // console.log({ currentStackScope, stackIndex, symbolStack });
     currentStackScope.vars.push(variableName);
     const varsAvailable = symbolStack.reduce((acc, item) => {
       return acc.concat(item.vars);
@@ -114,11 +108,8 @@ export class ScopeStackBuilder {
       ...ctx,
       varsAvailable
     };
-
-    this.indexAssignment(position, node);
-
-    // console.log({ varsAvailable });
-    // this.displaySymbolStack(variableName);
+    const opts = { position, node };
+    this.index("assignment", opts);
     return node;
   }
 }
