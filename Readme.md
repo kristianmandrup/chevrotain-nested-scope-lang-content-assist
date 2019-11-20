@@ -190,21 +190,8 @@ const onCompletion = (textDocumentPosition: TextDocumentPositionParams): Complet
   const varsWithinScope = data.varsAvailable;
   let completionItems = new Array<CompletionItem>();
 
-  // in case we allow completion in the middle of typing a name after assignment
-  const line = lines[position.line]
-  const wordBeingTypedAfterAssignToken = line.slice(column+1, position.character).trim()
-
-  const filterVars = (varsWithinScope) => varsWithinScope.filter(varName => varName.startsWith(wordBeingTypedAfterAssignToken))
-
-  const isTypingVarName = wordBeingTypedAfterAssignToken.length > 0
-
-  // if we are typing a (variable) name ref
-  // - display var names that start with typed name
-  // - otherwise display all var names in scope
-  const relevantVarsWithinScope = isTypingVarName ? filterVars(varsWithinScope) : varsWithinScope
-
   // build completion items list
-  relevantVarsWithinScope.map(varName => results.push({
+  varsWithinScope.map(varName => results.push({
     label: varName,
     kind: CompletionItemKind.Reference,
     data: varName
@@ -215,7 +202,36 @@ const onCompletion = (textDocumentPosition: TextDocumentPositionParams): Complet
 
 See [CompletionItemKind](https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.protocol.completionitemkind?view=visualstudiosdk-2019) enum (and more VS Code API documentation)
 
-To find a match, a primitive approach would be to simply iterate through this list until it finds first one with position greater than current document position (or at end of list) then use the one before that.
+Imagine we add a trigger on `_` for a language using snake case for variable names.
+
+```ts
+completionProvider: {
+  resolveProvider: true,
+  triggerCharacters: ["="]
+},
+```
+
+We could then use an AST? lookup to detect that we are in the middle of an assignment and are typing a name for the RHS (value/reference being assigned).
+
+`var c = abc_`
+
+We could use logic like the following to propose only var names that start with what we have typed so far.
+
+```ts
+const const { data, column } = this.find.assignment(pos);
+
+const line = lines[position.line]
+const wordBeingTypedAfterAssignToken = line.slice(column+1, position.character).trim()
+
+const filterVars = (varsWithinScope) => varsWithinScope.filter(varName => varName.startsWith(wordBeingTypedAfterAssignToken))
+
+const isTypingVarName = wordBeingTypedAfterAssignToken.length > 0
+
+// if we are typing a (variable) name ref
+// - display var names that start with typed name
+// - otherwise display all var names in scope
+const relevantVarsWithinScope = isTypingVarName ? filterVars(varsWithinScope) : varsWithinScope
+```
 
 ### Completion resolve
 
