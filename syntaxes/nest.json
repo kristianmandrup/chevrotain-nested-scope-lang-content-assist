@@ -1,0 +1,76 @@
+{
+  "fileTypes": ["nest"],
+  "name": "nest",
+  "patterns": [
+    {
+      "include": "#expression"
+    }
+  ],
+  "repository": {
+    "block": {
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": {
+          "name": "meta.brace.curly.sqf"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "meta.brace.curly.sqf"
+        }
+      },
+      "name": "meta.block.sqf",
+      "patterns": [
+        {
+          "include": "#expression"
+        }
+      ]
+    },
+    "var-ref": {
+      "match": "(\\s*)(_+[a-zA-Z_0-9]+)",
+      "name": "variable.other.private.sqlx"
+    },
+    "numeric-literal": {
+      "match": "\\s*(?<=[^$])((0(x|X)[0-9a-fA-F]+)|([0-9]+(\\.[0-9]+)?))\\b",
+      "name": "constant.numeric.sqf"
+    },
+    "relational-operator": {
+      "match": "=",
+      "name": "keyword.operator.assignment.sqlx"
+    },
+    "comment-line": {
+      "match": "(#).*$\\n?",
+      "name": "comment.line.sqlx"
+    },
+    "comment": {
+      "name": "comment.sqf",
+      "patterns": [
+        {
+          "include": "#comment-line"
+        }
+      ]
+    },
+    "expression": {
+      "name": "meta.expression.sqlx",
+      "patterns": [
+        {
+          "include": "#block"
+        },
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#var-ref"
+        },
+        {
+          "include": "#relational-operator"
+        },
+        {
+          "include": "#numeric-literal"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.sqlx"
+}

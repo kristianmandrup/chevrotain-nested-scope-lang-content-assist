@@ -1,0 +1,50 @@
+{
+  "name": "nested-scope-lang",
+  "version": "1.0.0",
+  "description": "Chevrotain nested scope language with content assist for Language Server Protocol (LSP)",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "contributes": {
+    "languages": [
+      {
+        "id": "nest",
+        "extensions": [
+          ".nest"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "nest",
+        "scopeName": "source.nest",
+        "path": "./syntaxes/nest.json"
+      }
+    ]
+  },
+  "dependencies": {
+    "@types/node": "^12.12.6",
+    "array-uniq": "^2.1.0",
+    "chevrotain": "^6.5.0",
+    "lodash.merge": "^4.6.2",
+    "lodash.uniqby": "^4.7.0",
+    "vscode-languageserver": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/assert": "^1.4.3",
+    "@types/jest": "^24.0.22",
+    "@types/lodash": "^4.14.145",
+    "assert": "^2.0.0",
+    "jest": "^24.9.0",
+    "jest-extended": "^0.11.2",
+    "lodash": "^4.17.15",
+    "ts-jest": "^24.1.0",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.7.2"
+  }
+}
