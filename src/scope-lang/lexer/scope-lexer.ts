@@ -1,3 +1,4 @@
+// CR: Clean, Small, Simple :thumbsup
 import { createToken, Lexer } from "chevrotain";
 
 // the vocabulary will be exported and used in the Parser definition.
