@@ -1,0 +1,10 @@
+    $.RULE("scope", () => {
+      $.CONSUME(Identifier); // named scopes
+      $.CONSUME(BeginScope);
+      $.AT_LEAST_ONE({
+        DEF: () => {
+          $.SUBRULE($.statement);
+        }
+      });
+      $.CONSUME(EndScope);
+    });

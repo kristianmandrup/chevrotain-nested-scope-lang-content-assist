@@ -1,6 +1,12 @@
 # Chevrotain Nested scope language with Content Assist
 
-This example project aims to demonstrate how to build a chevrotain base language (lexer, compiler etc) with nested scopes. This involves building a scope stack with a symbol stack for each level in the stack. This can then be used for IDE/editor content assist, displaying a list valid variable references at a given point in the document.
+This example project aims to demonstrate how to build a [chevrotain](https://sap.github.io/chevrotain) based language (lexer, compiler etc) with nested scopes.
+
+This involves building a scope stack with a symbol stack for each level in the stack. This can then be used for IDE/editor content assist, displaying a list valid variable references at a given point in the document.
+
+## WIP
+
+Please note that the `error-recovery` and `syntax` folder are currently only for reference until proper error recovery and syntax is developed for this Nested scope language (example).
 
 ## Tech
 
@@ -246,7 +252,7 @@ const isTypingVarName = wordBeingTypedAfterAssignToken.length > 0
 const relevantVarsWithinScope = isTypingVarName ? filterVars(varsWithinScope) : varsWithinScope
 ```
 
-### Names scopes
+### Named scopes
 
 We could also use named scopes, similar to namespaces or modules/classes etc.
 
