@@ -187,7 +187,7 @@ const onCompletion = (textDocumentPosition: TextDocumentPositionParams): Complet
   const lastTypedChar = line.charAt(lastCharLinePos)
 
   // map different completion functions for = and _
-  completionFn = getCompletionFnFor(lastTypedChar) 
+  completionFn = getCompletionFnFor(lastTypedChar)
 
   // TODO: execute completion function for last char typed that triggered it
 
@@ -220,7 +220,7 @@ Imagine we add a trigger on `_` for a language using snake case for variable nam
 ```ts
 completionProvider: {
   resolveProvider: true,
-  triggerCharacters: ["="]
+  triggerCharacters: ["=", "_"]
 },
 ```
 
@@ -245,6 +245,69 @@ const isTypingVarName = wordBeingTypedAfterAssignToken.length > 0
 // - otherwise display all var names in scope
 const relevantVarsWithinScope = isTypingVarName ? filterVars(varsWithinScope) : varsWithinScope
 ```
+
+### Names scopes
+
+We could also use named scopes, similar to namespaces or modules/classes etc.
+
+```ts
+    $.RULE("scope", () => {
+      $.CONSUME(Identifier); // named scopes
+      $.CONSUME(BeginScope);
+      $.AT_LEAST_ONE({
+        DEF: () => {
+          $.SUBRULE($.statement);
+        }
+      });
+      $.CONSUME(EndScope);
+    });
+```
+
+```ts
+alpha {
+  a = 2
+}
+```
+
+Then we could generate the `varsAvailable` as a map instead, to indicate for which scope a particular variable is made available (reachable):
+
+We could have the parser wrap the source code in a `global` namespace by convention
+
+```ts
+global {
+  alpha {
+    a = 2
+  }
+}
+```
+
+Then the simple solution would return `varsAvailable` as follows
+
+```ts
+varsAvailable = {
+  a: {
+    scope: 'alpha'
+  },
+  b: {
+    scope: 'global'
+  }
+}
+```
+
+Scope names are hierarchical, so it would be better to reference the full nested scope name.
+
+```ts
+varsAvailable = {
+  a: {
+    scope: 'global.alpha'
+  },
+  b: {
+    scope: 'global'
+  }
+}
+```
+
+This could be easily achieved by maintaining another scope stack `namedScopes` in the same fashion that `varsAvailable` are built, then joining the scope names by `.` to create the full scope name.
 
 ### Completion resolve
 
