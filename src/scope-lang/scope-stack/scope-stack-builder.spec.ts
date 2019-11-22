@@ -12,6 +12,7 @@ const scopeTree = toAstVisitor(inputText, { positioned: true });
 const builder = new ScopeStackBuilder();
 
 describe("Scope stack ", () => {
+  // CR: only perform logic calls inside it/before in the describe it would be called before the test case is actuall run.
   const scopedAst: any = builder.build(scopeTree);
   // const { statements } = scopedAst;
   const ctx = scopedAst;
@@ -20,6 +21,9 @@ describe("Scope stack ", () => {
   const stm2 = ctx[1];
   const stm3 = ctx[2];
 
+  // CR: strange to split the assertions into 3 parts because they all check the result of a
+  // **single** invocation of the Scope Builder.
+  // If there are three `it` I would expect 3 different inputs for the scope builder.
   it.only("statement 1", () => {
     // console.log({ stm1 });
     expect(stm1.varsAvailable).toEqual(["b"]);

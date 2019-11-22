@@ -9,7 +9,7 @@ const {
   Assign,
   Identifier,
   Integer,
-  Comma
+  Comma // CR: COMMA is not used, perhaps we do not need it at all?
 } = tokenVocabulary;
 
 export class ScopeParser extends CstParser {
@@ -18,13 +18,17 @@ export class ScopeParser extends CstParser {
     this.createRules();
   }
 
+  // CR: This looks like JavaScript style Parser definition.
+  // In TypeScript we can use a (better?) pattern where each parse rule is a class field.
+  // https://github.com/SAP/chevrotain/blob/master/examples/implementation_languages/typescript/typescript_json.ts
+  // This style will also be relevant using ECMAScript in the future: https://github.com/tc39/proposal-class-fields
   createRules() {
     // for conciseness
     const $: any = this;
 
     $.RULE("statements", () => {
       $.AT_LEAST_ONE({
-        DEF: () => {
+        DEF: () => { // CR: no need for explicit DEF if there is no GATE, can just pass the function directly
           $.SUBRULE($.statement);
         }
       });
@@ -40,7 +44,7 @@ export class ScopeParser extends CstParser {
     $.RULE("scope", () => {
       $.CONSUME(BeginScope);
       $.AT_LEAST_ONE({
-        DEF: () => {
+        DEF: () => { // CR: no need for explicit DEF if there is no GATE, can just pass the function directly
           $.SUBRULE($.statement);
         }
       });
