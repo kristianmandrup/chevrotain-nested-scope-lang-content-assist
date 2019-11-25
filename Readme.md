@@ -120,6 +120,8 @@ connection.onInitialize((params): InitializeResult => {
 });
 ```
 
+Note: Much of the following code can be found in `scope/lang/lsp/advanced`
+
 Sample `onCompletion` handler:
 
 ```ts

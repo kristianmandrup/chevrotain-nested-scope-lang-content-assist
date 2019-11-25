@@ -1,4 +1,7 @@
-const relevantVarsWithinScope = (position: any, { find, lines }: any) => {
+export const relevantVarsWithinScope = (
+  position: any,
+  { find, lines }: any
+) => {
   const { data, column } = find.assignment(position);
 
   const line = lines[position.line];
@@ -13,7 +16,7 @@ const relevantVarsWithinScope = (position: any, { find, lines }: any) => {
 
   const isTypingVarName = wordBeingTypedAfterAssignToken.length > 0;
 
-  const varsWithinScope = [];
+  const varsWithinScope = data.varsAvailable;
 
   // if we are typing a (variable) name ref
   // - display var names that start with typed name
