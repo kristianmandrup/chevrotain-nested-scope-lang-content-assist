@@ -176,7 +176,7 @@ const onChange = (textDocumentPosition: TextDocumentPositionParams) => {
     const { lineMap } = builder;
     // we should
     this.find = {
-      assignment = createIndexMatcher(lineMap, "assignment");
+      assignment: createIndexMatcher(lineMap, "assignment");
     }
   };
 };

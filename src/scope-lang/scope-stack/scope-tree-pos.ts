@@ -1,4 +1,4 @@
-export const scopeTree = [
+export const scopeTreePos = [
   {
     type: "SCOPE",
     statements: [

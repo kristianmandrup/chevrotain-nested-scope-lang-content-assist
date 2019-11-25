@@ -1,3 +1,10 @@
+import { AstVisitor } from "../../nested-scope-visitor";
+import { lex } from "../../lexer";
+import * as parser from "../../parser";
+
+const ScopeParser: any = parser.ScopeParser;
+const parserInstance = new ScopeParser();
+
 export const toAst = (inputText: string, opts = {}) => {
   const lexResult = lex(inputText);
 
