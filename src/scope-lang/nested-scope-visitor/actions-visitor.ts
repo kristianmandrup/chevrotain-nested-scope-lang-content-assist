@@ -9,6 +9,7 @@ import * as parser from "../parser";
 const ScopeParser: any = parser.ScopeParser;
 
 // A new parser instance with CST output (enabled by default).
+// CR: why are we creating a new parser instance? are not we already exposing a singleton Parser?
 const parserInstance = new ScopeParser();
 // The base visitor class can be accessed via the a parser instance.
 const BaseVisitor: any = parserInstance.getBaseCstVisitorConstructor();
@@ -120,7 +121,8 @@ export class AstVisitor extends PositionVisitor {
 }
 
 // Our visitor has no state, so a single instance is sufficient.
-
+// CR: why is our visitor accepting a **text** input? should not it get the CST directly?
+// Why is it even aware of the lexer module?
 export const toAst = (inputText: string, opts = {}) => {
   const lexResult = lex(inputText);
 
