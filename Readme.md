@@ -57,6 +57,18 @@ let inputText = "{ %b = 2 ";
 parse(inputText); // throws
 ```
 
+Note that the parser must have error recovery enabled in order to function with an invalid document in the editor:
+
+```js
+class JsonParser extends CstParser {
+    constructor() {
+        super(allTokens, {
+            // by default the error recovery / fault tolerance capabilities are disabled
+            recoveryEnabled: true
+        })
+    }
+```
+
 ### Actions
 
 #### AST
